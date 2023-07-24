@@ -20,7 +20,7 @@
 
 static constexpr int MAX_PREFIX_LENGTH = 256;
 
-int main( int argc, char* argv[] )
+int main( int /*argc*/, char* argv[] )
 {
     std::filesystem::path input( argv[ 1 ] );
     std::filesystem::path output( "out.txt"  );
