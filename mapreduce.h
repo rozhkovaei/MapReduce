@@ -67,10 +67,10 @@ public:
     
     void run( const std::filesystem::path& input, const std::filesystem::path& output, int prefix_length )
     {
-        auto blocks = split_file(input, mappers_count);
+        auto blocks = split_file( input, mappers_count );
 
         if( blocks.empty() )
-            throw std::runtime_error("empty input file");
+            throw std::runtime_error( "empty input file" );
         
         // Создаём mappers_count потоков
         // В каждом потоке читаем свой блок данных
@@ -109,7 +109,7 @@ public:
 
 
         std::vector< std::thread > threads;
-        for ( std::size_t i = 0; i < mappers_count; ++i )
+        for ( int i = 0; i < mappers_count; ++i )
         {
             std::stringstream filename_stream;
             filename_stream << "mapper" << i << ".txt";
@@ -148,7 +148,7 @@ public:
             }
         }
         
-        for ( std::size_t i = 0; i < mappers_count; ++i )
+        for ( int i = 0; i < mappers_count; ++i )
         {
             mappers_read[i].open( mapper_files[i] );
         }
@@ -240,13 +240,13 @@ public:
         std::vector< std::future< bool > > accumulate_future( reducers_count );
 
         std::vector< std::thread > reducer_threads;
-        for ( std::size_t i = 0; i < reducers_count; ++i )
+        for ( int i = 0; i < reducers_count; ++i )
         {
             accumulate_future[ i ] = std::async( std::launch::async, apply_reduce, i );
         }
 
         bool found = true;
-        for ( std::size_t i = 0; i < reducers_count; ++i )
+        for ( int i = 0; i < reducers_count; ++i )
         {
             if( !accumulate_future[ i ].get() )
                 found = false;
